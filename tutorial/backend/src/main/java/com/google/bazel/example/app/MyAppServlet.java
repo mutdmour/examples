@@ -20,6 +20,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebInitParam;
+import javax.servlet.annotation.WebServlet;
+
+//import lombok.extern.slf4j.Slf4j;
+
+//@Slf4j
+@SuppressWarnings( "serial" )
+@WebServlet( urlPatterns = "/", initParams = @WebInitParam(name="dirAllowed", value="false") )
 public class MyAppServlet extends HttpServlet {
 
   @Override

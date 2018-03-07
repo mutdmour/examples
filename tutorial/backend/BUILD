@@ -1,8 +1,8 @@
-load("@io_bazel_rules_appengine//appengine:appengine.bzl", "appengine_war")
+load("//rules:war.bzl", "war_file")
 
 package(default_visibility = ["//visibility:public"])
 
-appengine_war(
+war_file(
     name = "backend",
     data = [":webapp"],
     data_path = "/backend/webapp",
@@ -14,6 +14,13 @@ filegroup(
     srcs = glob(["webapp/**/*"]),
 )
 
+java_library(
+    name = "javax.servlet.api",
+    neverlink = 1,
+    visibility = ["//visibility:public"],
+    exports = ["@javax_servlet_api//jar:jar"],
+)
+
 # We only need a java_library, but create a java_binary because we need a bundle
 # of all of the dependencies (a deploy jar) to pass to the appengine_war. So we
 # specify a non-existant class as the main_class (as the "binary" will never be
@@ -23,6 +30,6 @@ java_binary(
     srcs = glob(["src/main/java/**/*.java"]),
     main_class = "does.not.exist",
     deps = [
-        "@io_bazel_rules_appengine//appengine:javax.servlet.api",
+        "javax.servlet.api"
     ],
 )
